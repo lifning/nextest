@@ -2136,6 +2136,7 @@ mod imp {
         System::{
             Console::{GetStdHandle, STD_ERROR_HANDLE, STD_INPUT_HANDLE, STD_OUTPUT_HANDLE},
             JobObjects::TerminateJobObject,
+            Threading::CREATE_NEW_PROCESS_GROUP,
         },
     };
 
@@ -2167,8 +2168,9 @@ mod imp {
         Ok(())
     }
 
-    pub(super) fn set_process_group(_cmd: &mut std::process::Command) {
-        // TODO: set process group on Windows for better ctrl-C handling.
+    pub(super) fn set_process_group(cmd: &mut std::process::Command) {
+        // set process group on Windows for better ctrl-C handling.
+        cmd.creation_flags(CREATE_NEW_PROCESS_GROUP);
     }
 
     pub(super) fn assign_process_to_job(
